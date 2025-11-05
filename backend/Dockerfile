@@ -14,6 +14,7 @@ COPY requirements.txt .
 
 # Выполнить в текущей директории команду терминала
 # для установки зависимостей.
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt --no-cache-dir
 
 RUN pip install gunicorn==23.0.0
@@ -28,7 +29,8 @@ COPY . .
 # CMD ["python", "manage.py", "runserver", "0:8000"] 
 
 # Для запуска на продакшн сервере используем gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "backend.wsgi"]
+# CMD ["gunicorn", "--bind", "0:8000", "backend.wsgi"]
 
-
-
+COPY ./start_backend.sh /app/start_backend.sh
+RUN chmod +x /app/start_backend.sh
+ENTRYPOINT ["/app/start_backend.sh"]
