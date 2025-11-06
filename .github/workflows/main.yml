@@ -27,4 +27,4 @@ jobs:
       - name: Lint with flake8
         run: |
           # stop the build if there are Python syntax errors or undefined names
-          python -m flake8 /backend --count --show-source --statistics
+          python -m flake8 backend/ --count --show-source --statistics
