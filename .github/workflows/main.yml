@@ -1,0 +1,22 @@
+name: Main Taski Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  checkout-and-print-tree:
+    runs-on: ubuntu-latest
+    steps:
+      # На GitHub Actions есть готовые описания шагов,
+      # их можно использовать в своих workflow.
+      # Применим готовое описание шага для получения исходного кода
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }}
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code  # Имя шага задаём сами
+        uses: actions/checkout@v5
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository (project tree)
+        run: tree .

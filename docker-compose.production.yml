@@ -1,0 +1,49 @@
+name: taski
+
+# Перечень volume
+volumes:
+  pg_data_production:
+  static_volume:
+
+# Перечень контейнеров
+services:
+  # Имя и описание первого контейнера; имя выбирает разработчик.
+
+  # Это контейнер БД
+  postgres_db:
+    # Из какого образа запустить контейнер:
+    image: postgres:13.10
+    # Файл (или список файлов) с переменными окружения
+    env_file: .env
+    # Какой volume подключить для этого контейнера
+    volumes:
+      - pg_data_production:/var/lib/postgresql/data
+  # Имя и описание контейнера с бэкендом
+  backend:
+    # Из какого Dockerfile собирать образ для этого контейнера:
+    image: softice01/taski_backend
+    volumes:
+      - static_volume:/backend_static
+    env_file: .env
+    # Какие контейнеры нужно запустить до старта этого контейнера:
+    depends_on:
+      - postgres_db
+  # Имя третьего контейнера. Это контейнер с фронтендом
+  frontend:
+    env_file: .env
+    image: softice01/taski_frontend
+    command: cp -r /app/build/. /frontend_static/
+    volumes:
+      - static_volume:/frontend_static
+  # Контейнер с Веб сервером
+  web:
+    image: softice01/taski_gateway
+    ports:
+      - "8000:80"
+    environment:
+      - NGINX_PORT=80
+    volumes:
+      - static_volume:/staticfiles
+    depends_on:
+      - frontend
+      - backend

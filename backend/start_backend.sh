@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Starting backend..."
+echo "Starting taski backend..."
 
 python manage.py migrate 
 
