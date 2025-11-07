@@ -194,6 +194,15 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: "docker-compose.production.yml"
           target: "taski"
+      - name: Copy collect_static_production.sh to remote server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.REMOTE_SERVER_HOST }}
+          username: ${{ secrets.REMOTE_SERVER_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          source: "collect_static_production.sh"
+          target: "."
       - name: Execute remote scripts to deploy
         uses: appleboy/ssh-action@master
         with:
@@ -206,7 +215,8 @@ jobs:
             sudo docker compose -f docker-compose.production.yml pull
             sudo docker compose -f docker-compose.production.yml down
             sudo docker compose -f docker-compose.production.yml up -d
-            sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collected_static/. /backend_static/static/
+            sudo bash collect_static_production.sh
+          # sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collected_static/. /backend_static/static/
 
   send_message:
     runs-on: ubuntu-latest
