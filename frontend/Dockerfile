@@ -14,4 +14,4 @@ RUN npm run build
 
 # с использованием docker compose данная команда уже не нужна
 # Вместо нее используем command в .yml файле
-# CMD ["npx", "-y", "http-server", "-p", "8080", "/app/build"]
+# CMD ["npx", "-y", "http-server", "-p", "8000", "/app/build"]

@@ -25,8 +25,6 @@ COPY . .
 
 EXPOSE 8000
 
-RUN pip install gunicorn==23.0.0
-
 
 # При старте контейнера запустить сервер разработки.
 # CMD ["python", "manage.py", "runserver", "0:8000"]
