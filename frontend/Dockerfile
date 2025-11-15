@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 
-RUN npm install
+RUN npm ci
 
 COPY . .
 RUN npm run build
@@ -13,6 +13,5 @@ RUN npm run build
 # содержимое директории /app/build на порте 8000
 
 # с использованием docker compose данная команда уже не нужна
-# Вместо нее используем command в .yml файле 
-# CMD ["npx", "-y", "http-server", "-p", "8080", "/app/build"] 
-
+# Вместо нее используем command в .yml файле
+# CMD ["npx", "-y", "http-server", "-p", "8080", "/app/build"]
